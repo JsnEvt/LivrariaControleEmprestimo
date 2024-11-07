@@ -10,6 +10,6 @@ namespace LivrariaControleEmprestimo.DATA.Repositories
 {
     internal class RepositoryEmprestimo : RepositoryBase<Emprestimo>, IRepositoryEmprestimo
     {
-        public RepositoryEmprestimo(bool SaveChanges = true) : base(SaveChanges) { };
+        public RepositoryEmprestimo(bool SaveChanges = true) : base(SaveChanges) { }
     }
 }
