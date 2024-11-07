@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\ClienteController\**" />
+    <Content Remove="Views\ClienteController\**" />
+    <EmbeddedResource Remove="Views\ClienteController\**" />
+    <None Remove="Views\ClienteController\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\ClienteController1.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
       <PrivateAssets>all</PrivateAssets>
@@ -14,6 +25,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
   </ItemGroup>
 
   <ItemGroup>
