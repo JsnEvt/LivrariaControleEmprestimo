@@ -44,6 +44,19 @@ public partial class Cliente
     [Unicode(false)]
     public string Bairro { get; set; }
 
+    [Required]
+    [Column("numero")]
+    [StringLength(50)]
+    public string Numero { get; set; }
+
+    [Column("telefoneCelular")]
+    [StringLength(14)]
+    public string TelefoneCelular { get; set; }
+
+    [Column("telefoneFixo")]
+    [StringLength(13)]
+    public string TelefoneFixo { get; set; }
+
     [InverseProperty("IdClienteNavigation")]
     public virtual ICollection<Emprestimo> Emprestimo { get; set; } = new List<Emprestimo>();
 }

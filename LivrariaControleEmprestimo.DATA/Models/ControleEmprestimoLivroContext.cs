@@ -32,22 +32,22 @@ public partial class ControleEmprestimoLivroContext : DbContext
         modelBuilder.Entity<Cliente>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Numero).IsFixedLength();
+            entity.Property(e => e.TelefoneCelular).IsFixedLength();
+            entity.Property(e => e.TelefoneFixo).IsFixedLength();
         });
 
         modelBuilder.Entity<Emprestimo>(entity =>
         {
-            entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Emprestimo)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Emprestimo_Cliente");
+            entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Emprestimo).HasConstraintName("FK_Emprestimo_Cliente");
 
-            entity.HasOne(d => d.IdLivroNavigation).WithMany(p => p.Emprestimo)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Emprestimo_Livro");
+            entity.HasOne(d => d.IdLivroNavigation).WithMany(p => p.Emprestimo).HasConstraintName("FK_Emprestimo_Livro");
         });
 
         modelBuilder.Entity<Livro>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Nome).IsFixedLength();
         });
 
         OnModelCreatingPartial(modelBuilder);

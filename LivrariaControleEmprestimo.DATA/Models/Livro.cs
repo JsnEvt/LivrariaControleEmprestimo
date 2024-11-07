@@ -15,16 +15,30 @@ public partial class Livro
     public int Id { get; set; }
 
     [Required]
+    [Column("nome")]
+    [StringLength(50)]
+    public string Nome { get; set; }
+
+    [Required]
     [Column("autor")]
-    [StringLength(100)]
+    [StringLength(200)]
     [Unicode(false)]
     public string Autor { get; set; }
 
     [Required]
     [Column("editora")]
-    [StringLength(50)]
+    [StringLength(100)]
     [Unicode(false)]
     public string Editora { get; set; }
+
+    [Column("anoPublicacao", TypeName = "datetime")]
+    public DateTime AnoPublicacao { get; set; }
+
+    [Required]
+    [Column("edicao")]
+    [StringLength(50)]
+    [Unicode(false)]
+    public string Edicao { get; set; }
 
     [InverseProperty("IdLivroNavigation")]
     public virtual ICollection<Emprestimo> Emprestimo { get; set; } = new List<Emprestimo>();
