@@ -16,5 +16,17 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult Create(Cliente model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            clienteService.repositoryCliente.Incluir(model);
+
+            return RedirectToAction("Index");
+        }
     }
 }
