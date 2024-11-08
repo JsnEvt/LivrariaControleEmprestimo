@@ -28,5 +28,9 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
 
             return RedirectToAction("Index");
         }
+        public IActionResult Details()
+        {
+            return View();
+        }
     }
 }

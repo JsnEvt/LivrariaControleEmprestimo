@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\ClienteController1.cs" />
+    <Compile Remove="Controllers\ClienteController.cs" />
   </ItemGroup>
 
   <ItemGroup>
