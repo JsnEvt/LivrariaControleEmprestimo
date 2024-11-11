@@ -45,7 +45,14 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
         {
             Cliente cliente = clienteService.repositoryCliente.Alterar(model);
             int id = cliente.Id;
-            return RedirectToAction("Details", new {id});
+            return RedirectToAction("Details", new { id });
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var cliente = clienteService.repositoryCliente.SelecionarPk(id);
+            clienteService.repositoryCliente.Excluir(cliente);
+            return RedirectToAction("Index");
         }
     }
 }
