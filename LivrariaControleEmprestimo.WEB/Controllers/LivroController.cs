@@ -4,53 +4,53 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LivrariaControleEmprestimo.WEB.Controllers
 {
-    public class ClienteController : Controller
+    public class LivroController : Controller
     {
-        private ClienteService clienteService = new ClienteService();
+        private LivroService livroService = new LivroService();
         public IActionResult Index()
         {
-            List<Cliente> listClientes = clienteService.repositoryCliente.SelecionarTodos();
-            return View(listClientes);
+            List<Livro> listLivro = livroService.repositoryLivro.SelecionarTodos();
+            return View(listLivro);
         }
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Cliente model)
+        public IActionResult Create(Livro model)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
 
-            clienteService.repositoryCliente.Incluir(model);
+            livroService.repositoryLivro.Incluir(model);
 
             return RedirectToAction("Index");
         }
         public IActionResult Details(int id)
         {
-            Cliente cliente = clienteService.repositoryCliente.SelecionarPk(id);
-            return View(cliente);
+            Livro livro = livroService.repositoryLivro.SelecionarPk(id);
+            return View(livro);
         }
 
         public IActionResult Edit(int id)
         {
-            Cliente cliente = clienteService.repositoryCliente.SelecionarPk(id);
-            return View(cliente);
+            Livro livro = livroService.repositoryLivro.SelecionarPk(id);
+            return View(livro);
         }
 
         [HttpPost]
-        public IActionResult Edit(Cliente model)
+        public IActionResult Edit(Livro model)
         {
-            Cliente cliente = clienteService.repositoryCliente.Alterar(model);
-            int id = cliente.Id;
+            Livro livro = livroService.repositoryLivro.Alterar(model);
+            int id = livro.Id;
             return RedirectToAction("Details", new { id });
         }
 
         public IActionResult Delete(int id)
         {
-            clienteService.repositoryCliente.Excluir(id);
+            livroService.repositoryLivro.Excluir(id);
             return RedirectToAction("Index");
         }
     }

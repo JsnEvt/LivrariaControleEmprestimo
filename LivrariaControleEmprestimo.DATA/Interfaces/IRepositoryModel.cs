@@ -13,7 +13,7 @@ namespace LivrariaControleEmprestimo.DATA.Interfaces
         T Incluir(T objeto);
         T Alterar(T objeto);
         void Excluir(T objeto);
-        void Excliur(params object[] variavel);
+        void Excluir(params object[] variavel);
         void SaveChanges();
     }
 }

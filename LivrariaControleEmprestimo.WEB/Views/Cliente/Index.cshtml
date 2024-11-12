@@ -42,13 +42,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TelefoneFixo)
             </td>
-            <td class="row col-md">
-                <a asp-action="Edit" class="btn btn-warning m-1" asp-route-id="@item.Id">Alterar</a>
-                    <a asp-action="Details" class="btn btn-primary m-1" asp-route-id="@item.Id">Detalhes</a>
+            <td class="row">
+                <a asp-action="Edit" class="btn btn-warning mr-1" asp-route-id="@item.Id">Alterar</a>
+                    <a asp-action="Details" class="btn btn-primary mr-1" asp-route-id="@item.Id">Detalhes</a>
 
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-danger m-1" data-toggle="modal" data-target="#DeleteModal-@item.Id">
-                        Exluir
+                    <button type="button" class="btn btn-danger mr-1" data-toggle="modal" data-target="#DeleteModal-@item.Id">
+                        Excluir
                     </button>
 
                     <!-- Modal -->
@@ -56,7 +56,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="DeleteModalLabel">Exluir cliente</h5>
+                                    <h5 class="modal-title" id="DeleteModalLabel">Excluir cliente</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -71,8 +71,6 @@
                             </div>
                         </div>
                     </div>
-
-
             </td>
         </tr>
 }
@@ -80,11 +78,16 @@
 </table>
 
 @section Scripts {
-    <script>
-        let table = new DataTable('#myTable', {
-            language : {
-                url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
-            }
-        });
-    </script>
+        <script>
+            let table = new DataTable('#myTable', {
+                language : {
+                    url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
+                }
+            });
+    }
+
+    $(document).ready(function () {
+        console.log("Document ready. Bootstrap modals should be working.");
+    });
+        </script>
 }

@@ -33,10 +33,10 @@ namespace LivrariaControleEmprestimo.DATA.Repositories
             _contexto?.Dispose();
         }
 
-        public void Excliur(params object[] variavel)
+        public void Excluir(params object[] variavel)
         {
             var obj = SelecionarPk(variavel);
-            Excliur(obj);
+            Excluir(obj);
         }
 
         public void Excluir(T objeto)
