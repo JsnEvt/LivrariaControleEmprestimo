@@ -1,0 +1,52 @@
+﻿@model LivrariaControleEmprestimo.DATA.Models.Livro
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Detalhes do livro</h1>
+<div>
+    <h4>Confira o detalhamento do livro</h4>
+    <hr />
+        <div>
+            <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model?.Id">Alterar</a>
+            <a class="btn btn-primary" asp-action="Index">Voltar</a>
+        </div>
+        <br />
+        <div class="card">
+            <div class="card-header">Informações</div>
+            <div class="card-body row">
+                <div class="form-group col-md">
+                    <label>@Html.DisplayNameFor(model => model.Nome)</label>
+                    <input disabled class="form-control" value="@Html.DisplayFor(model => model.Nome)" />
+                </div>
+                <div class="form-group col-md">
+                    <div class="form-group col-md">
+                        <label>@Html.DisplayNameFor(model => model.Autor)</label>
+                        <input disabled class="form-control" value="@Html.DisplayFor(model => model.Autor)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    <br />
+        <div class="card">
+            <div class="card-header">Informações da editora</div>
+            <div class="card-body row">
+                <div class="form-group col-md">
+                    <label asp-for="Editora" class="control-label"></label>
+                    <input disabled asp-for="Editora" class="form-control" />
+                    <span asp-validation-for="Editora" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md">
+                    <label asp-for="AnoPublicacao" class="control-label"></label>
+                    <input disabled asp-for="AnoPublicacao" class="form-control" />
+                    <span asp-validation-for="AnoPublicacao" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md">
+                    <label asp-for="Edicao" class="control-label"></label>
+                    <input disabled asp-for="Edicao" class="form-control" />
+                    <span asp-validation-for="Edicao" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+</div>
