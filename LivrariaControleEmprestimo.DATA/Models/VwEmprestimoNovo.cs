@@ -8,10 +8,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LivrariaControleEmprestimo.DATA.Models;
 
+[Keyless]
 public partial class VwEmprestimoNovo
 {
-    [Key]
-    public int? IdEmprestimo { get; set; }
+    public long? IdEmprestimo { get; set; }
+
+    [Required]
+    [Column("CPF")]
+    [StringLength(14)]
+    [Unicode(false)]
+    public string Cpf { get; set; }
 
     [Required]
     [Column("nomeCliente")]

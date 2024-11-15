@@ -54,7 +54,7 @@ public partial class ControleEmprestimoLivroContext : DbContext
         modelBuilder.Entity<VwEmprestimoNovo>(entity =>
         {
             entity.ToView("VW_EmprestimoNovo");
-            entity.HasKey(e => e.IdEmprestimo);
+
             entity.Property(e => e.NomeLivro).IsFixedLength();
         });
 
