@@ -25,6 +25,10 @@
       {
          "Name": "[dbo].[Livro]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VW_EmprestimoNovo]",
+         "ObjectType": 3
       }
    ],
    "UiHint": null,

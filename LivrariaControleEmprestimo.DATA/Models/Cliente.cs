@@ -18,8 +18,6 @@ public partial class Cliente
     [Column("CPF")]
     [StringLength(14)]
     [Unicode(false)]
-    //[DisplayName("Cpf")] para caso, renomear o nome das colunas sem afetar o atributo chave("CPF"), que
-    //e a referencia, no caso, para busca dos valores correspondentes.
     public string Cpf { get; set; }
 
     [Required]

@@ -23,6 +23,8 @@ public partial class ControleEmprestimoLivroContext : DbContext
 
     public virtual DbSet<Livro> Livro { get; set; }
 
+    public virtual DbSet<VwEmprestimoNovo> VwEmprestimoNovo { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=DESKTOP-FJFC26E\\SQLEXPRESS;Initial Catalog=ControleEmprestimoLivro;Integrated Security=True;Encrypt=False");
@@ -47,6 +49,13 @@ public partial class ControleEmprestimoLivroContext : DbContext
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Nome).IsFixedLength();
+        });
+
+        modelBuilder.Entity<VwEmprestimoNovo>(entity =>
+        {
+            entity.ToView("VW_EmprestimoNovo");
+            entity.HasKey(e => e.IdEmprestimo);
+            entity.Property(e => e.NomeLivro).IsFixedLength();
         });
 
         OnModelCreatingPartial(modelBuilder);
