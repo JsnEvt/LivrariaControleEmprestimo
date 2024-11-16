@@ -7,9 +7,9 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Registrar empréstimo</a>
 </p>
-<table id="myTable" class="table">
+<table id="listClientesTable" class="table">
     <thead>
         <tr>
             <th>
@@ -89,18 +89,28 @@
     </tbody>
 </table>
 
+<!--LIVROS-->
+
+
+
+
 
 @section Scripts {
-        <script>
-            $(document).ready(function () {
-                // Inicializando DataTable
-                $('#myTable').DataTable({
-                    language: {
-                        url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
-                    }
-                });
-
-                console.log("Document ready. DataTable e modals devem estar funcionando.");
+    <script>
+        $(document).ready(function () {
+            // Inicializando DataTable
+            $('#listClientesTable').DataTable({
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
+                }
             });
-        </script>
+            $('#listLivrosTable').DataTable({
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
+                }
+            });
+
+            console.log("Document ready. DataTable e modals devem estar funcionando.");
+        });
+    </script>
 }
