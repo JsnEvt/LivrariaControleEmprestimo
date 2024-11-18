@@ -2,6 +2,10 @@
 
 <h4>Emprestimo</h4>
 <hr />
+<div>
+    <a class="btn btn-primary" asp-action="Index">Voltar</a>
+</div>
+<br />
 <div class="row">
     <div class="col-md">
         <form asp-action="Create">
@@ -9,10 +13,10 @@
 
             <!--Devido a selecao de uma linha na tabela criando o identificador do cliente/livro-->
             <div hidden class="form-group">
-                <input asp-for="idCliente" class="form-control" />
+                <input id=idCliente asp-for="idCliente" class="form-control" />
             </div>
             <div hidden class="form-group">
-                <input asp-for="idLivro" class="form-control" />
+                <input id=idLivro asp-for="idLivro" class="form-control" />
             </div>
             <div class="card">
                 <div class="card-header">Cliente</div>
@@ -37,7 +41,7 @@
                         <tbody>
                             @foreach (var item in Model.listClientes)
                             {
-                                <tr data-id="@item.Id">
+                                <tr onclick="passIdCliente('@item.Id')" data-id="@item.Id">
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Cpf)
                                     </td>
@@ -87,7 +91,7 @@
                         <tbody>
                             @foreach (var item in Model.listLivros)
                             {
-                                <tr data-id="@item.Id">
+                                <tr onclick="passIdLivro('@item.Id')" data-id="@item.Id">
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Nome)
                                     </td>
@@ -116,7 +120,7 @@
                     <div class="col-md">
                         <div class="form-group">
                             <label asp-for="dataEmprestimo" class="control-label"></label>
-                            <input asp-for="dataEmprestimo" class="form-control" />
+                            <input readonly="readonly" asp-for="dataEmprestimo" class="form-control" />
                             <span asp-validation-for="dataEmprestimo" class="text-danger"></span>
                         </div>
                     </div>
@@ -131,14 +135,10 @@
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Incluir" class="btn btn-success" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
@@ -191,5 +191,14 @@
                 $('input[name="idLivro"]').val(idLivro);
             });
         });
+
+        function passIdCliente(idCliente){
+            document.getElementById('idCliente').value = idCliente;
+        }
+
+        function passIdLivro(idLivro){
+            document.getElementById('idLivro').value = idLivro;
+        }
+
     </script>
 }

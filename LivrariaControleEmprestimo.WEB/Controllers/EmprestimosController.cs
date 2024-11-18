@@ -22,7 +22,35 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
             emprestimoViewModel.listClientes = listCliente;
             emprestimoViewModel.listLivros = listLivro;
 
+            emprestimoViewModel.dataEmprestimo = DateTime.Now;
+            emprestimoViewModel.dataEntrega = DateTime.Now.AddDays(15);
+
             return View(emprestimoViewModel);
+        }
+
+        //aqui adicionamos uma view para listar os registro dos livros emprestados
+        //apos a selecao dos mesmos.
+
+        [HttpPost]
+        public IActionResult Create(EmprestimoViewModel emprestimoVM)
+        {
+
+            Emprestimo emprestimo = new Emprestimo();
+            emprestimo.DataEmprestimo = emprestimoVM.dataEmprestimo;
+            emprestimo.DataEntrega = emprestimoVM.dataEntrega;
+            emprestimo.Entregue = false;
+            emprestimo.IdCliente = emprestimoVM.idCliente;
+            emprestimo.IdLivro = emprestimoVM.idLivro;
+
+
+            if(ModelState.IsValid) 
+                {
+                    return View();
+                }
+
+                _service.repositoryEmprestimo.Incluir(emprestimo);
+
+            return RedirectToAction("Index");
         }
     }
 }
