@@ -7,30 +7,37 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            <!--Devido a selecao de uma linha na tabela criando o identificador do cliente/livro-->
+            <div hidden class="form-group">
+                <input asp-for="idCliente" class="form-control" />
+            </div>
+            <div hidden class="form-group">
+                <input asp-for="idLivro" class="form-control" />
+            </div>
             <div class="card">
                 <div class="card-header">Cliente</div>
-                    <div class="card-body">
-                        <table id="listClientesTable" class="table">
-                <thead>
-                    <tr>
-                        <th>
+                <div class="card-body">
+                    <table id="listClientesTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>
                                     @Html.DisplayNameFor(model => model.cliente.Cpf)
-                        </th>
-                        <th>
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.cliente.Nome)
-                        </th>
-                        <th>
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.cliente.TelefoneCelular)
-                        </th>
-                        <th>
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.cliente.TelefoneFixo)
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @foreach (var item in Model.listClientes)
                             {
-                                <tr>
+                                <tr data-id="@item.Id">
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Cpf)
                                     </td>
@@ -45,42 +52,42 @@
                                     </td>
                                 </tr>
                             }
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
 
-                    </div>
                 </div>
-
+            </div>
+            <br />
 
             <!--LIVROS-->
 
             <div class="card">
                 <div class="card-header">Livro</div>
                 <div class="card-body">
-                                <table id="listLivrosTable" class="table">
-                <thead>
-                    <tr>
-                        <th>
+                    <table id="listLivrosTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>
                                     @Html.DisplayNameFor(model => model.livro.Nome)
-                        </th>
-                        <th>
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.livro.Autor)
-                        </th>
-                        <th>
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.livro.Editora)
-                        </th>
-                        <th>
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.livro.AnoPublicacao)
-                        </th>
-                        <th>
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.livro.Edicao)
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @foreach (var item in Model.listLivros)
                             {
-                                <tr>
+                                <tr data-id="@item.Id">
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Nome)
                                     </td>
@@ -98,30 +105,31 @@
                                     </td>
                                 </tr>
                             }
-                </tbody>
-            </table>
-
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            </div>
+            <br />
             <div class="card">
                 <div class="card-header">Datas</div>
-                    <div class="card-body row">
-                        <div class="col-md">
-                            <div class="form-group">
-                                <label asp-for="dataEmprestimo" class="control-label"></label>
-                                <input asp-for="dataEmprestimo" class="form-control" />
-                                <span asp-validation-for="dataEmprestimo" class="text-danger"></span>
-                            </div>
-                       <div/>
-                   <div class="col-md">
+                <div class="card-body row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label asp-for="dataEmprestimo" class="control-label"></label>
+                            <input asp-for="dataEmprestimo" class="form-control" />
+                            <span asp-validation-for="dataEmprestimo" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md">
                         <div class="form-group">
                             <label asp-for="dataEntrega" class="control-label"></label>
                             <input asp-for="dataEntrega" class="form-control" />
                             <span asp-validation-for="dataEntrega" class="text-danger"></span>
                         </div>
-                   </div>
+                    </div>
                 </div>
             </div>
+            <br />
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -134,20 +142,54 @@
 </div>
 
 @section Scripts {
-        <script>
-            $(document).ready(function () {
-                // Inicializando DataTable
-                $('#listClientesTable').DataTable({
-                    language: {
-                        url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
-                    }
-                });
-                $('#listLivrosTable').DataTable({
-                    language: {
-                        url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
-                    }
-                });
-                console.log("Document ready. DataTable e modals devem estar funcionando.");
+    <script>
+        $(document).ready(function () {
+            // Inicializando DataTables
+            const clientesTable = new DataTable('#listClientesTable', {
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
+                }
             });
-        </script>
+
+            const livrosTable = new DataTable('#listLivrosTable', {
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
+                }
+            });
+
+            // Evento de clique para a tabela de Clientes
+            clientesTable.on('click', 'tbody tr', (e) => {
+                let classList = e.currentTarget.classList;
+
+                if (classList.contains('selected')) {
+                    classList.remove('selected');
+                }
+                else {
+                    clientesTable.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+                    classList.add('selected');
+                }
+
+                // Atualiza o campo escondido com o ID do cliente selecionado
+                const idCliente = $(e.currentTarget).data('id');
+                $('input[name="idCliente"]').val(idCliente);
+            });
+
+            // Evento de clique para a tabela de Livros
+            livrosTable.on('click', 'tbody tr', (e) => {
+                let classList = e.currentTarget.classList;
+
+                if (classList.contains('selected')) {
+                    classList.remove('selected');
+                }
+                else {
+                    livrosTable.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+                    classList.add('selected');
+                }
+
+                // Atualiza o campo escondido com o ID do livro selecionado
+                const idLivro = $(e.currentTarget).data('id');
+                $('input[name="idLivro"]').val(idLivro);
+            });
+        });
+    </script>
 }

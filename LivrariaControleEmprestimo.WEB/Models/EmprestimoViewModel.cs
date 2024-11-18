@@ -6,6 +6,8 @@ namespace LivrariaControleEmprestimo.WEB.Models
     {
         public Livro livro {  get; set; }
         public Cliente cliente { get; set; }
+        public int idCliente { get; set; }
+        public int idLivro { get; set; }
         public DateTime dataEmprestimo { get; set; }
         public DateTime dataEntrega { get; set; }
 
