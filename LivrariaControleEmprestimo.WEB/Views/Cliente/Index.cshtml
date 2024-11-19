@@ -7,7 +7,7 @@
 <h1>Clientes</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">Novo Cliente</a>
+    <a class="btn btn-primary" asp-action="Create"><i class="fa fa-plus-circle"></i> Novo Cliente</a>
 </p>
 <table id="listClientesTable" class="table">
     <thead>
@@ -42,13 +42,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TelefoneFixo)
             </td>
-            <td class="row">
-                <a asp-action="Edit" class="btn btn-warning mr-1" asp-route-id="@item.Id">Alterar</a>
-                    <a asp-action="Details" class="btn btn-primary mr-1" asp-route-id="@item.Id">Detalhes</a>
+            <td class="d-flex justify-content-start">
+                <a asp-action="Edit" class="btn btn-warning mr-1" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
+                    <a asp-action="Details" class="btn btn-primary mr-1" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
 
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-danger mr-1" data-toggle="modal" data-target="#DeleteModal-@item.Id">
-                        Excluir
+                        <i class="fa fa-trash"></i>
                     </button>
 
                     <!-- Modal -->
