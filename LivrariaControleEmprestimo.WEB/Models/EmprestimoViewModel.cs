@@ -10,6 +10,9 @@ namespace LivrariaControleEmprestimo.WEB.Models
         public int idLivro { get; set; }
         public DateTime dataEmprestimo { get; set; }
         public DateTime dataEntrega { get; set; }
+        //o atributo abaixo ja carrega varios dos atributos acima e poder-se-ia
+        //usar apenas este indicado abaixo:
+        public Emprestimo emprestimo { get; set; }
 
 
         public List<Cliente> listClientes { get; set; }
