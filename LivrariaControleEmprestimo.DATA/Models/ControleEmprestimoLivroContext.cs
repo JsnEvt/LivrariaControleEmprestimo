@@ -47,7 +47,6 @@ public partial class ControleEmprestimoLivroContext : DbContext
 
         modelBuilder.Entity<Livro>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Nome).IsFixedLength();
         });
 
