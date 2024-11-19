@@ -62,7 +62,7 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
 
             Emprestimo emprestimo = _service.repositoryEmprestimo.SelecionarPk(id);
             emprestimoViewModel.emprestimo = emprestimo;
-            return View();
+            return View(emprestimoViewModel);
         }
     }
 }

@@ -8,15 +8,15 @@
 <br />
 <div class="row">
     <div class="col-md">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <!--Devido a selecao de uma linha na tabela criando o identificador do cliente/livro-->
             <div hidden class="form-group">
-                <input id=idCliente asp-for="emprestimo.IdCliente" class="form-control" />
+                <input type=hidden asp-for="emprestimo.IdCliente" id=idCliente class ="form-control" />
             </div>
             <div hidden class="form-group">
-                <input id=idLivro asp-for="emprestimo.IdLivro" class="form-control" />
+                <input type=hidden asp-for="emprestimo.IdLivro" id=idLivro class="form-control" />
             </div>
             <div class="card">
                 <div class="card-header">Cliente</div>
@@ -24,6 +24,9 @@
                     <table id="listClientesTable" class="table">
                         <thead>
                             <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cliente.Id)
+                                </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.cliente.Cpf)
                                 </th>
@@ -41,7 +44,10 @@
                         <tbody>
                             @foreach (var item in Model.listClientes)
                             {
-                                <tr onclick="passIdCliente('@item.Id')" data-id="@item.Id">
+                                <tr onclick="passIdCliente('@item.Id')">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Cpf)
                                     </td>
@@ -72,6 +78,9 @@
                         <thead>
                             <tr>
                                 <th>
+                                    @Html.DisplayNameFor(model => model.livro.Id)
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.livro.Nome)
                                 </th>
                                 <th>
@@ -91,21 +100,24 @@
                         <tbody>
                             @foreach (var item in Model.listLivros)
                             {
-                                <tr onclick="passIdLivro('@item.Id')" data-id="@item.Id">
+                                <tr onclick="passIdLivro('@item.Id')">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Nome)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Autor)
+                                    @Html.DisplayFor(modelItem => item.Autor)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Editora)
+                                    @Html.DisplayFor(modelItem => item.Editora)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.AnoPublicacao)
+                                    @Html.DisplayFor(modelItem => item.AnoPublicacao)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Edicao)
+                                    @Html.DisplayFor(modelItem => item.Edicao)
                                     </td>
                                 </tr>
                             }
@@ -173,6 +185,9 @@
                 const idCliente = $(e.currentTarget).data('id');
                 $('input[name="idCliente"]').val(idCliente);
             });
+
+
+
 
             // Evento de clique para a tabela de Livros
             livrosTable.on('click', 'tbody tr', (e) => {
