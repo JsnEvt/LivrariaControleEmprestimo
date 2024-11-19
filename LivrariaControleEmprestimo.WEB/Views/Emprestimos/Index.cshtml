@@ -49,9 +49,26 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DataEmprestimo)
                 </td>
-                <td>
+                <!--Separando a logica da aplicacao da regra abaixo:-->
+                <!--A regra e declarada para depoi ser usada-->
+                @{
+                    var styleStatus = "text-white bg-success";
+                    if (DateTime.Now.Date > item.DataEntrega)
+                    {
+                        styleStatus = "text-white bg-danger";
+                    }
+                    else if (DateTime.Now.Date.Equals(item.DataEntrega))
+                    {
+                        styleStatus = "bg-warning";
+                    }
+                }
+
+                <td class="@styleStatus">
                     @Html.DisplayFor(modelItem => item.DataEntrega)
                 </td>
+
+
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Entregue)
                 </td>
@@ -105,8 +122,6 @@
                     url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
                 }
             });
-
-            console.log("Document ready. DataTable e modals devem estar funcionando.");
         });
     </script>
 }
