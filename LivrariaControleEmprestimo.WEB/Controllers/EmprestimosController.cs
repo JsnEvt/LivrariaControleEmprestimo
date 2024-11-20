@@ -64,5 +64,22 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
             emprestimoViewModel.emprestimo = emprestimo;
             return View(emprestimoViewModel);
         }
+
+        [HttpPost]
+        public IActionResult Edit(EmprestimoViewModel emprestimoViewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                emprestimoViewModel.listClientes = _service.repositoryCliente.SelecionarTodos();
+                emprestimoViewModel.listLivros = _service.repositoryLivro.SelecionarTodos();
+                return View();
+            }
+
+            _service.repositoryEmprestimo.Alterar(emprestimoViewModel.emprestimo);
+
+            return RedirectToAction("Index");
+
+        }
     }
 }

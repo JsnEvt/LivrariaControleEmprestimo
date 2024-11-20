@@ -29,6 +29,9 @@ public partial class Emprestimo
     [Column("entregue")]
     public bool? Entregue { get; set; }
 
+    [Column("entregueNaoNulo")]
+    public bool EntregueNaoNulo => Entregue ?? false;
+
     [ForeignKey("IdCliente")]
     [InverseProperty("Emprestimo")]
     public virtual Cliente IdClienteNavigation { get; set; }

@@ -3,7 +3,7 @@
 <h4>Emprestimo</h4>
 <hr />
 <div>
-    <a class="btn btn-primary" asp-action="Index">Voltar</a>
+    <a class="btn btn-primary" asp-action="Index"><i class="fa fa-arrow-left"></i> Voltar</a>
 </div>
 <br />
 <div class="row">
@@ -11,7 +11,27 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+            <div class="col-md-4 p-0">
+                <div class="card">
+                    <div class="card-header">Livro devolvido</div>
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input asp-for="emprestimo.EntregueNaoNulo" class="form-check-input" type="checkbox" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Devolvido
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <br />
+
             <!--Devido a selecao de uma linha na tabela criando o identificador do cliente/livro-->
+            <div hidden class="form-group">
+                <input asp-for="emprestimo.Id" class="form-control" />
+            </div>
             <div hidden class="form-group">
                 <input type=hidden asp-for="emprestimo.IdCliente" id=idCliente class ="form-control" />
             </div>
@@ -147,7 +167,7 @@
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Incluir" class="btn btn-success" />
+                <input type="submit" value="Alterar" class="btn btn-success" />
             </div>
         </form>
     </div>
@@ -186,6 +206,8 @@
                 $('input[name="idCliente"]').val(idCliente);
             });
 
+            $('listClientesTable tbody tr td').filter(":contains('"+ emprestimo.idCliente +"')")[0].parentElement.setAttribute('class', 'selected');
+
 
 
 
@@ -207,6 +229,8 @@
             });
         });
 
+        $('listLivroTable tbody tr td').filter(":contains('" + emprestimo.idLivro + "')")[0].parentElement.setAttribute('class', 'selected');
+
         function passIdCliente(idCliente){
             document.getElementById('idCliente').value = idCliente;
         }
@@ -214,6 +238,5 @@
         function passIdLivro(idLivro){
             document.getElementById('idLivro').value = idLivro;
         }
-
     </script>
 }

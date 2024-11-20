@@ -53,13 +53,22 @@
                 <!--A regra e declarada para depoi ser usada-->
                 @{
                     var styleStatus = "text-white bg-success";
-                    if (DateTime.Now.Date > item.DataEntrega)
+
+                    if (item.Entregue == true)
                     {
-                        styleStatus = "text-white bg-danger";
+                        styleStatus = "";
                     }
-                    else if (DateTime.Now.Date.Equals(item.DataEntrega))
+                    else
                     {
-                        styleStatus = "bg-warning";
+                        if (DateTime.Now.Date > item.DataEntrega)
+                        {
+                            styleStatus = "text-white bg-danger";
+                        }
+                        else if (DateTime.Now.Date.Equals(item.DataEntrega))
+                        {
+                            styleStatus = "bg-warning";
+                        }
+
                     }
                 }
 
@@ -72,7 +81,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Entregue)
                 </td>
-                    <td class="d-flex justify-content-start">
+                <td class="d-flex justify-content-start">
                     <a asp-action="Edit" class="btn btn-warning mr-1" asp-route-id="@item.IdEmprestimo"><i class="fa fa-edit"></i></a>
                     <a asp-action="Details" class="btn btn-primary mr-1" asp-route-id="@item.IdEmprestimo"><i class="fa fa-search"></i></a>
 
