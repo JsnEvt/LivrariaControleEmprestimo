@@ -2,84 +2,145 @@
 using LivrariaControleEmprestimo.DATA.Services;
 using LivrariaControleEmprestimo.WEB.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace LivrariaControleEmprestimo.WEB.Controllers
 {
     public class EmprestimosController : Controller
     {
-        private VmEmprestimoNovoService _service = new VmEmprestimoNovoService();
+        private readonly VmEmprestimoNovoService _service = new VmEmprestimoNovoService();
+        private readonly ILogger<EmprestimosController> _logger;
+
+        public EmprestimosController(ILogger<EmprestimosController> logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
-           List<VwEmprestimoNovo> listVmEmprestimo = _service.repositoryVmEmprestimoNovo.SelecionarTodos();
-            return View(listVmEmprestimo);
+            try
+            {
+                List<VwEmprestimoNovo> listVmEmprestimo = _service.repositoryVmEmprestimoNovo.SelecionarTodos() ?? new List<VwEmprestimoNovo>();
+                return View(listVmEmprestimo);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao carregar a lista de empréstimos.");
+                return StatusCode(500, "Erro interno no servidor.");
+            }
         }
+
         public IActionResult Create()
         {
-            EmprestimoViewModel emprestimoViewModel = new EmprestimoViewModel();
-            List<Cliente> listCliente = _service.repositoryCliente.SelecionarTodos();
-            List<Livro> listLivro = _service.repositoryLivro.SelecionarTodos();
+            try
+            {
+                var emprestimoViewModel = new EmprestimoViewModel
+                {
+                    listClientes = _service.repositoryCliente.SelecionarTodos() ?? new List<Cliente>(),
+                    listLivros = _service.repositoryLivro.SelecionarTodos() ?? new List<Livro>(),
+                    dataEmprestimo = DateTime.Now,
+                    dataEntrega = DateTime.Now.AddDays(15)
+                };
 
-            emprestimoViewModel.listClientes = listCliente;
-            emprestimoViewModel.listLivros = listLivro;
-
-            emprestimoViewModel.dataEmprestimo = DateTime.Now;
-            emprestimoViewModel.dataEntrega = DateTime.Now.AddDays(15);
-
-            return View(emprestimoViewModel);
+                return View(emprestimoViewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao carregar a página de criação de empréstimos.");
+                return StatusCode(500, "Erro interno no servidor.");
+            }
         }
-
-        //aqui adicionamos uma view para listar os registro dos livros emprestados
-        //apos a selecao dos mesmos.
 
         [HttpPost]
         public IActionResult Create(EmprestimoViewModel emprestimoVM)
         {
+            if (!ModelState.IsValid)
+            {
+                emprestimoVM.listClientes = _service.repositoryCliente.SelecionarTodos() ?? new List<Cliente>();
+                emprestimoVM.listLivros = _service.repositoryLivro.SelecionarTodos() ?? new List<Livro>();
 
-            Emprestimo emprestimo = new Emprestimo();
-            emprestimo.DataEmprestimo = emprestimoVM.dataEmprestimo;
-            emprestimo.DataEntrega = emprestimoVM.dataEntrega;
-            emprestimo.Entregue = false;
-            emprestimo.IdCliente = emprestimoVM.idCliente;
-            emprestimo.IdLivro = emprestimoVM.idLivro;
+                _logger.LogWarning("Modelo inválido enviado para criação de empréstimo.");
+                return View(emprestimoVM);
+            }
 
-
-            if(ModelState.IsValid) 
+            try
+            {
+                var emprestimo = new Emprestimo
                 {
-                    return View();
-                }
+                    DataEmprestimo = emprestimoVM.dataEmprestimo,
+                    DataEntrega = emprestimoVM.dataEntrega,
+                    Entregue = false,
+                    IdCliente = emprestimoVM.idCliente,
+                    IdLivro = emprestimoVM.idLivro
+                };
 
                 _service.repositoryEmprestimo.Incluir(emprestimo);
 
-            return RedirectToAction("Index");
+                _logger.LogInformation("Empréstimo criado com sucesso.");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao criar o empréstimo.");
+                ModelState.AddModelError(string.Empty, "Erro ao salvar o empréstimo.");
+                return View(emprestimoVM);
+            }
         }
 
+
+        [HttpGet]
         public IActionResult Edit(int id)
         {
-            EmprestimoViewModel emprestimoViewModel = new EmprestimoViewModel();
+            try
+            {
+                var emprestimo = _service.repositoryEmprestimo.SelecionarPk(id);
+                if (emprestimo == null)
+                {
+                    _logger.LogWarning($"Empréstimo com ID {id} não encontrado.");
+                    return NotFound(); // Retorna erro 404 se o empréstimo não existir
+                }
 
-            emprestimoViewModel.listClientes = _service.repositoryCliente.SelecionarTodos();
-            emprestimoViewModel.listLivros = _service.repositoryLivro.SelecionarTodos();
+                var emprestimoViewModel = new EmprestimoViewModel
+                {
+                    emprestimo = emprestimo,
+                    listClientes = _service.repositoryCliente.SelecionarTodos() ?? new List<Cliente>(),
+                    listLivros = _service.repositoryLivro.SelecionarTodos() ?? new List<Livro>()
+                };
 
-            Emprestimo emprestimo = _service.repositoryEmprestimo.SelecionarPk(id);
-            emprestimoViewModel.emprestimo = emprestimo;
-            return View(emprestimoViewModel);
+                return View(emprestimoViewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao carregar a página de edição.");
+                return StatusCode(500, "Erro interno no servidor.");
+            }
         }
 
         [HttpPost]
         public IActionResult Edit(EmprestimoViewModel emprestimoViewModel)
         {
-
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                emprestimoViewModel.listClientes = _service.repositoryCliente.SelecionarTodos();
-                emprestimoViewModel.listLivros = _service.repositoryLivro.SelecionarTodos();
-                return View();
+                emprestimoViewModel.listClientes = _service.repositoryCliente.SelecionarTodos() ?? new List<Cliente>();
+                emprestimoViewModel.listLivros = _service.repositoryLivro.SelecionarTodos() ?? new List<Livro>();
+
+                _logger.LogWarning("Modelo inválido enviado para edição de empréstimo.");
+                return View(emprestimoViewModel);
             }
 
-            _service.repositoryEmprestimo.Alterar(emprestimoViewModel.emprestimo);
+            try
+            {
+                _service.repositoryEmprestimo.Alterar(emprestimoViewModel.emprestimo);
 
-            return RedirectToAction("Index");
-
+                _logger.LogInformation($"Empréstimo com ID {emprestimoViewModel.emprestimo.Id} atualizado com sucesso.");
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao salvar alterações do empréstimo.");
+                ModelState.AddModelError(string.Empty, "Erro ao salvar alterações.");
+                return View(emprestimoViewModel);
+            }
         }
     }
 }
