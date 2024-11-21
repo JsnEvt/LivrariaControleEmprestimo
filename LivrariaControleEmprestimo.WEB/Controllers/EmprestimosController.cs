@@ -2,6 +2,7 @@
 using LivrariaControleEmprestimo.DATA.Services;
 using LivrariaControleEmprestimo.WEB.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace LivrariaControleEmprestimo.WEB.Controllers
@@ -41,7 +42,6 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
                     dataEmprestimo = DateTime.Now,
                     dataEntrega = DateTime.Now.AddDays(15)
                 };
-
                 return View(emprestimoViewModel);
             }
             catch (Exception ex)
@@ -56,12 +56,25 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
         {
             if (!ModelState.IsValid)
             {
+                //Log detalhado dos erros do ModelState
+                foreach (var state in ModelState)
+                {
+                    if (state.Value.Errors.Count > 0)
+                    {
+                        foreach (var error in state.Value.Errors)
+                        {
+                            _logger.LogWarning($"Erro no campo {state.Key}: {error.ErrorMessage}");
+                        }
+                    }
+                }
+
                 emprestimoVM.listClientes = _service.repositoryCliente.SelecionarTodos() ?? new List<Cliente>();
                 emprestimoVM.listLivros = _service.repositoryLivro.SelecionarTodos() ?? new List<Livro>();
 
                 _logger.LogWarning("Modelo inválido enviado para criação de empréstimo.");
                 return View(emprestimoVM);
-            }
+
+            };
 
             try
             {
@@ -76,6 +89,7 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
 
                 _service.repositoryEmprestimo.Incluir(emprestimo);
 
+
                 _logger.LogInformation("Empréstimo criado com sucesso.");
                 return RedirectToAction("Index");
             }
@@ -86,7 +100,6 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
                 return View(emprestimoVM);
             }
         }
-
 
         [HttpGet]
         public IActionResult Edit(int id)

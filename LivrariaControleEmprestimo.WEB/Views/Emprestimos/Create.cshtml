@@ -11,102 +11,66 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <!--Devido a selecao de uma linha na tabela criando o identificador do cliente/livro-->
+            <!-- Campos escondidos para armazenar IDs selecionados -->
             <div hidden class="form-group">
-                <input id=idCliente asp-for="idCliente" class="form-control" />
+                <input type="hidden" id="idCliente" name="idCliente" asp-for="idCliente" class="form-control" />
             </div>
             <div hidden class="form-group">
-                <input id=idLivro asp-for="idLivro" class="form-control" />
+                <input type="hidden" id="idLivro" name="idLivro" asp-for="idLivro" class="form-control" />
             </div>
+
+            <!-- Tabela de Clientes -->
             <div class="card">
                 <div class="card-header">Cliente</div>
                 <div class="card-body">
                     <table id="listClientesTable" class="table">
                         <thead>
                             <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.cliente.Cpf)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.cliente.Nome)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.cliente.TelefoneCelular)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.cliente.TelefoneFixo)
-                                </th>
+                                <th>@Html.DisplayNameFor(model => model.cliente.Cpf)</th>
+                                <th>@Html.DisplayNameFor(model => model.cliente.Nome)</th>
+                                <th>@Html.DisplayNameFor(model => model.cliente.TelefoneCelular)</th>
+                                <th>@Html.DisplayNameFor(model => model.cliente.TelefoneFixo)</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model.listClientes)
                             {
-                                <tr onclick="passIdCliente('@item.Id')" data-id="@item.Id">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Cpf)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Nome)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TelefoneCelular)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TelefoneFixo)
-                                    </td>
+                                <tr data-id="@item.Id">
+                                    <td>@Html.DisplayFor(modelItem => item.Cpf)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TelefoneCelular)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TelefoneFixo)</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
-
                 </div>
             </div>
             <br />
 
-            <!--LIVROS-->
-
+            <!-- Tabela de Livros -->
             <div class="card">
                 <div class="card-header">Livro</div>
                 <div class="card-body">
                     <table id="listLivrosTable" class="table">
                         <thead>
                             <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.livro.Nome)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.livro.Autor)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.livro.Editora)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.livro.AnoPublicacao)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.livro.Edicao)
-                                </th>
+                                <th>@Html.DisplayNameFor(model => model.livro.Nome)</th>
+                                <th>@Html.DisplayNameFor(model => model.livro.Autor)</th>
+                                <th>@Html.DisplayNameFor(model => model.livro.Editora)</th>
+                                <th>@Html.DisplayNameFor(model => model.livro.AnoPublicacao)</th>
+                                <th>@Html.DisplayNameFor(model => model.livro.Edicao)</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model.listLivros)
                             {
-                                <tr onclick="passIdLivro('@item.Id')" data-id="@item.Id">
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Nome)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Autor)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Editora)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.AnoPublicacao)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Edicao)
-                                    </td>
+                                <tr data-id="@item.Id">
+                                    <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Autor)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Editora)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.AnoPublicacao)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Edicao)</td>
                                 </tr>
                             }
                         </tbody>
@@ -114,6 +78,8 @@
                 </div>
             </div>
             <br />
+
+            <!-- Datas de Empréstimo -->
             <div class="card">
                 <div class="card-header">Datas</div>
                 <div class="card-body row">
@@ -134,6 +100,8 @@
                 </div>
             </div>
             <br />
+
+            <!-- Botão de Inclusão -->
             <div class="form-group">
                 <input type="submit" value="Incluir" class="btn btn-success" />
             </div>
@@ -145,60 +113,41 @@
     <script>
         $(document).ready(function () {
             // Inicializando DataTables
-            const clientesTable = new DataTable('#listClientesTable', {
+            const clientesTable = $('#listClientesTable').DataTable({
                 language: {
                     url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
                 }
             });
 
-            const livrosTable = new DataTable('#listLivrosTable', {
+            const livrosTable = $('#listLivrosTable').DataTable({
                 language: {
                     url: "https://cdn.datatables.net/plug-ins/1.11.5/i18n/pt-BR.json"
                 }
             });
 
-            // Evento de clique para a tabela de Clientes
-            clientesTable.on('click', 'tbody tr', (e) => {
-                let classList = e.currentTarget.classList;
-
-                if (classList.contains('selected')) {
-                    classList.remove('selected');
+            // Seleção de Cliente
+            $('#listClientesTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $('#idCliente').val(''); // Limpa o campo
+                } else {
+                    clientesTable.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#idCliente').val($(this).data('id'));
                 }
-                else {
-                    clientesTable.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
-                    classList.add('selected');
-                }
-
-                // Atualiza o campo escondido com o ID do cliente selecionado
-                const idCliente = $(e.currentTarget).data('id');
-                $('input[name="idCliente"]').val(idCliente);
             });
 
-            // Evento de clique para a tabela de Livros
-            livrosTable.on('click', 'tbody tr', (e) => {
-                let classList = e.currentTarget.classList;
-
-                if (classList.contains('selected')) {
-                    classList.remove('selected');
+            // Seleção de Livro
+            $('#listLivrosTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                    $('#idLivro').val(''); // Limpa o campo
+                } else {
+                    livrosTable.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    $('#idLivro').val($(this).data('id'));
                 }
-                else {
-                    livrosTable.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
-                    classList.add('selected');
-                }
-
-                // Atualiza o campo escondido com o ID do livro selecionado
-                const idLivro = $(e.currentTarget).data('id');
-                $('input[name="idLivro"]').val(idLivro);
             });
         });
-
-        function passIdCliente(idCliente){
-            document.getElementById('idCliente').value = idCliente;
-        }
-
-        function passIdLivro(idLivro){
-            document.getElementById('idLivro').value = idLivro;
-        }
-
     </script>
 }

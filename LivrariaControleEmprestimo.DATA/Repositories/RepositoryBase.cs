@@ -50,12 +50,21 @@ namespace LivrariaControleEmprestimo.DATA.Repositories
 
         public T Incluir(T objeto)
         {
-            _contexto.Set<T>().Add(objeto);
-            if(_SaveChanges)
+            try
             {
-                _contexto.SaveChanges();
+                _contexto.Set<T>().Add(objeto);
+                if (_SaveChanges)
+                {
+                    _contexto.SaveChanges();
+                }
+                return objeto;
             }
-            return objeto;
+            catch (Exception ex)
+            {
+                // Logue o erro para entender o que deu errado
+                Console.WriteLine("Erro ao salvar no banco: " + ex.Message);
+                throw;
+            }
         }
 
         public void SaveChanges()
