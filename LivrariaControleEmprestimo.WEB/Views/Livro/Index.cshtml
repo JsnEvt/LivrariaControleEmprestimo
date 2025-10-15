@@ -49,16 +49,16 @@
                 @Html.DisplayFor(modelItem => item.Edicao)
             </td>
                 <td class="d-flex justify-content-start">
-                    <a asp-action="Edit" class="btn btn-warning mr-1" asp-route-id="@item.Id"><i class="fa fa-edit"></i></a>
-                    <a asp-action="Details" class="btn btn-primary mr-1" asp-route-id="@item.Id"><i class="fa fa-search"></i></a>
+                    <a asp-action="Edit" class="btn btn-warning mr-1" asp-route-id="@item.LivroId"><i class="fa fa-edit"></i></a>
+                    <a asp-action="Details" class="btn btn-primary mr-1" asp-route-id="@item.LivroId"><i class="fa fa-search"></i></a>
 
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-danger mr-1" data-toggle="modal" data-target="#DeleteModal-@item.Id">
+                    <button type="button" class="btn btn-danger mr-1" data-toggle="modal" data-target="#DeleteModal-@item.LivroId">
                         <i class="fa fa-trash"></i>
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="DeleteModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="DeleteModal-@item.LivroId" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-                                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Sim</a>
+                                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.LivroId">Sim</a>
                                 </div>
                             </div>
                         </div>

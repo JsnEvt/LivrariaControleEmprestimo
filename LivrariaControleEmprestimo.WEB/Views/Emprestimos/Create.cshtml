@@ -13,10 +13,10 @@
 
             <!-- Campos escondidos para armazenar IDs selecionados -->
             <div hidden class="form-group">
-                <input type="hidden" id="idCliente" name="idCliente" asp-for="idCliente" class="form-control" />
+                <input type="hidden" id="ClienteId" name="idCliente" asp-for="idCliente" class="form-control" />
             </div>
             <div hidden class="form-group">
-                <input type="hidden" id="idLivro" name="idLivro" asp-for="idLivro" class="form-control" />
+                <input type="hidden" id="LivroId" name="idLivro" asp-for="idLivro" class="form-control" />
             </div>
 
             <!-- Tabela de Clientes -->
@@ -34,8 +34,8 @@
                         </thead>
                         <tbody>
                             @foreach (var item in Model.listClientes)
-                            {
-                                <tr data-id="@item.Id">
+                             {
+                                <tr onclick="passIdCliente('@item.ClienteId')" data-id="@item.ClienteId">
                                     <td>@Html.DisplayFor(modelItem => item.Cpf)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Nome)</td>
                                     <td>@Html.DisplayFor(modelItem => item.TelefoneCelular)</td>
@@ -65,7 +65,7 @@
                         <tbody>
                             @foreach (var item in Model.listLivros)
                             {
-                                <tr data-id="@item.Id">
+                                <tr onclick="passIdLivro('@item.LivroId')" data-id="@item.LivroId">
                                     <td>@Html.DisplayFor(modelItem => item.Nome)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Autor)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Editora)</td>
@@ -149,5 +149,15 @@
                 }
             });
         });
+
+        function passIdCliente(idCliente) {
+            document.getElementById('idCliente').value = idCliente;
+        }
+
+
+        function passIdLivro(idLivro) {
+            document.getElementById('idLivro').value = idLivro;
+        }
+
     </script>
 }

@@ -61,7 +61,7 @@ namespace LivrariaControleEmprestimo.DATA.Repositories
             }
             catch (Exception ex)
             {
-                // Logue o erro para entender o que deu errado
+                // Log do erro para entender o que deu errado
                 Console.WriteLine("Erro ao salvar no banco: " + ex.Message);
                 throw;
             }

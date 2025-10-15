@@ -11,8 +11,7 @@ namespace LivrariaControleEmprestimo.DATA.Models;
 public partial class Livro
 {
     [Key]
-    [Column("id")]
-    public int Id { get; set; }
+    public int LivroId { get; set; }
 
     [Required]
     [Column("nome")]
@@ -40,6 +39,6 @@ public partial class Livro
     [Unicode(false)]
     public string Edicao { get; set; }
 
-    [InverseProperty("IdLivroNavigation")]
+    [InverseProperty("Livro")]
     public virtual ICollection<Emprestimo> Emprestimo { get; set; } = new List<Emprestimo>();
 }

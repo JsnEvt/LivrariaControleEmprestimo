@@ -44,7 +44,7 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
         public IActionResult Edit(Cliente model)
         {
             Cliente cliente = clienteService.repositoryCliente.Alterar(model);
-            int id = cliente.Id;
+            int id = cliente.ClienteId;
             return RedirectToAction("Details", new { id });
         }
 

@@ -14,11 +14,9 @@ public partial class Emprestimo
     [Column("id")]
     public int Id { get; set; }
 
-    [Column("idLivro")]
-    public int? IdLivro { get; set; }
+    public int ClienteId { get; set; }
 
-    [Column("idCliente")]
-    public int? IdCliente { get; set; }
+    public int LivroId { get; set; }
 
     [Column("dataEmprestimo", TypeName = "datetime")]
     public DateTime? DataEmprestimo { get; set; }
@@ -29,14 +27,11 @@ public partial class Emprestimo
     [Column("entregue")]
     public bool? Entregue { get; set; }
 
-    [Column("entregueNaoNulo")]
-    public bool EntregueNaoNulo => Entregue ?? false;
-
-    [ForeignKey("IdCliente")]
+    [ForeignKey("ClienteId")]
     [InverseProperty("Emprestimo")]
-    public virtual Cliente IdClienteNavigation { get; set; }
+    public virtual Cliente Cliente { get; set; }
 
-    [ForeignKey("IdLivro")]
+    [ForeignKey("LivroId")]
     [InverseProperty("Emprestimo")]
-    public virtual Livro IdLivroNavigation { get; set; }
+    public virtual Livro Livro { get; set; }
 }

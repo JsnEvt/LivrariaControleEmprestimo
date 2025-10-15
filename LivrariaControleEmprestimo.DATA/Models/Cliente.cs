@@ -11,8 +11,7 @@ namespace LivrariaControleEmprestimo.DATA.Models;
 public partial class Cliente
 {
     [Key]
-    [Column("id")]
-    public int Id { get; set; }
+    public int ClienteId { get; set; }
 
     [Required]
     [Column("CPF")]
@@ -46,7 +45,7 @@ public partial class Cliente
 
     [Required]
     [Column("numero")]
-    [StringLength(50)]
+    [StringLength(3)]
     public string Numero { get; set; }
 
     [Column("telefoneCelular")]
@@ -54,9 +53,9 @@ public partial class Cliente
     public string TelefoneCelular { get; set; }
 
     [Column("telefoneFixo")]
-    [StringLength(13)]
+    [StringLength(14)]
     public string TelefoneFixo { get; set; }
 
-    [InverseProperty("IdClienteNavigation")]
+    [InverseProperty("Cliente")]
     public virtual ICollection<Emprestimo> Emprestimo { get; set; } = new List<Emprestimo>();
 }

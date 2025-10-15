@@ -31,13 +31,13 @@
 
             <!-- Campos ocultos -->
             <div class="form-group">
-                <input type="hidden" asp-for="emprestimo.Id" class="form-control" />
+                <input type="hidden" asp-for="emprestimo.ClienteId" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="hidden" asp-for="emprestimo.IdCliente" id="idCliente" class="form-control" />
+                <input type="hidden" asp-for="emprestimo.ClienteId" id="idCliente" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="hidden" asp-for="emprestimo.IdLivro" id="idLivro" class="form-control" />
+                <input type="hidden" asp-for="emprestimo.LivroId" id="idLivro" class="form-control" />
             </div>
 
             <!-- Tabela de Clientes -->
@@ -47,7 +47,7 @@
                     <table id="listClientesTable" class="table">
                         <thead>
                             <tr>
-                                <th>@Html.DisplayNameFor(model => model.cliente.Id)</th>
+                                <th>@Html.DisplayNameFor(model => model.cliente.ClienteId)</th>
                                 <th>@Html.DisplayNameFor(model => model.cliente.Cpf)</th>
                                 <th>@Html.DisplayNameFor(model => model.cliente.Nome)</th>
                                 <th>@Html.DisplayNameFor(model => model.cliente.TelefoneCelular)</th>
@@ -57,8 +57,8 @@
                         <tbody>
                             @foreach (var item in Model.listClientes)
                             {
-                                <tr data-id="@item.Id">
-                                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                <tr data-id="@item.ClienteId">
+                                    <td>@Html.DisplayFor(modelItem => item.ClienteId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Cpf)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Nome)</td>
                                     <td>@Html.DisplayFor(modelItem => item.TelefoneCelular)</td>
@@ -78,7 +78,7 @@
                     <table id="listLivrosTable" class="table">
                         <thead>
                             <tr>
-                                <th>@Html.DisplayNameFor(model => model.livro.Id)</th>
+                                <th>@Html.DisplayNameFor(model => model.livro.LivroId)</th>
                                 <th>@Html.DisplayNameFor(model => model.livro.Nome)</th>
                                 <th>@Html.DisplayNameFor(model => model.livro.Autor)</th>
                                 <th>@Html.DisplayNameFor(model => model.livro.Editora)</th>
@@ -89,8 +89,8 @@
                         <tbody>
                             @foreach (var item in Model.listLivros)
                             {
-                                <tr data-id="@item.Id">
-                                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                <tr data-id="@item.LivroId">
+                                    <td>@Html.DisplayFor(modelItem => item.LivroId)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Nome)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Autor)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Editora)</td>
@@ -167,12 +167,12 @@
             });
 
             // Selecionar linhas já configuradas
-            const selectedClienteRow = $('#listClientesTable tbody tr[data-id="' + @Model.emprestimo.IdCliente + '"]');
+            const selectedClienteRow = $('#listClientesTable tbody tr[data-id="' + @Model.emprestimo.ClienteId + '"]');
             if (selectedClienteRow.length > 0) {
                 selectedClienteRow.addClass('selected');
             }
 
-            const selectedLivroRow = $('#listLivrosTable tbody tr[data-id="' + @Model.emprestimo.IdLivro + '"]');
+            const selectedLivroRow = $('#listLivrosTable tbody tr[data-id="' + @Model.emprestimo.LivroId + '"]');
             if (selectedLivroRow.length > 0) {
                 selectedLivroRow.addClass('selected');
             }

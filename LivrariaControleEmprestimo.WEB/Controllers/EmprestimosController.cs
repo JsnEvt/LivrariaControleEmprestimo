@@ -35,12 +35,12 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
         {
             try
             {
-                var emprestimoViewModel = new EmprestimoViewModel
+                var emprestimoViewModel = new EmprestimoViewModel();
                 {
-                    listClientes = _service.repositoryCliente.SelecionarTodos() ?? new List<Cliente>(),
-                    listLivros = _service.repositoryLivro.SelecionarTodos() ?? new List<Livro>(),
-                    dataEmprestimo = DateTime.Now,
-                    dataEntrega = DateTime.Now.AddDays(15)
+                    emprestimoViewModel.listClientes = _service.repositoryCliente.SelecionarTodos() ?? new List<Cliente>();
+                    emprestimoViewModel.listLivros = _service.repositoryLivro.SelecionarTodos() ?? new List<Livro>();
+                    emprestimoViewModel.dataEmprestimo = DateTime.Now;
+                    emprestimoViewModel.dataEntrega = DateTime.Now.AddDays(15);
                 };
                 return View(emprestimoViewModel);
             }
@@ -52,54 +52,101 @@ namespace LivrariaControleEmprestimo.WEB.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(EmprestimoViewModel emprestimoVM)
+        public IActionResult Create(EmprestimoViewModel emprestimoViewModel)
         {
             if (!ModelState.IsValid)
             {
-                //Log detalhado dos erros do ModelState
-                foreach (var state in ModelState)
-                {
-                    if (state.Value.Errors.Count > 0)
-                    {
-                        foreach (var error in state.Value.Errors)
-                        {
-                            _logger.LogWarning($"Erro no campo {state.Key}: {error.ErrorMessage}");
-                        }
-                    }
-                }
-
-                emprestimoVM.listClientes = _service.repositoryCliente.SelecionarTodos() ?? new List<Cliente>();
-                emprestimoVM.listLivros = _service.repositoryLivro.SelecionarTodos() ?? new List<Livro>();
+                // Log detalhado dos erros do ModelState
+                LogModelStateErrors();
 
                 _logger.LogWarning("Modelo inválido enviado para criação de empréstimo.");
-                return View(emprestimoVM);
 
+                // Recarregar listas para exibir na view
+                emprestimoViewModel.listClientes = _service.repositoryCliente.SelecionarTodos() ?? new List<Cliente>();
+                emprestimoViewModel.listLivros = _service.repositoryLivro.SelecionarTodos() ?? new List<Livro>();
+
+                return View(emprestimoViewModel);
+            }
+
+            var emprestimo = new Emprestimo
+            {
+                DataEmprestimo = emprestimoViewModel.dataEmprestimo,
+                DataEntrega = emprestimoViewModel.dataEntrega,
+                Entregue = false,
+                ClienteId = emprestimoViewModel.idCliente,
+                LivroId = emprestimoViewModel.idLivro
             };
 
-            try
+            _service.repositoryEmprestimo.Incluir(emprestimo);
+
+            return RedirectToAction("Index");
+        }
+
+        // Método utilitário para logar erros do ModelState
+        private void LogModelStateErrors()
+        {
+            foreach (var state in ModelState)
             {
-                var emprestimo = new Emprestimo
+                if (state.Value.Errors.Count > 0)
                 {
-                    DataEmprestimo = emprestimoVM.dataEmprestimo,
-                    DataEntrega = emprestimoVM.dataEntrega,
-                    Entregue = false,
-                    IdCliente = emprestimoVM.idCliente,
-                    IdLivro = emprestimoVM.idLivro
-                };
-
-                _service.repositoryEmprestimo.Incluir(emprestimo);
-
-
-                _logger.LogInformation("Empréstimo criado com sucesso.");
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Erro ao criar o empréstimo.");
-                ModelState.AddModelError(string.Empty, "Erro ao salvar o empréstimo.");
-                return View(emprestimoVM);
+                    foreach (var error in state.Value.Errors)
+                    {
+                        _logger.LogWarning($"Erro no campo {state.Key}: {error.ErrorMessage}");
+                    }
+                }
             }
         }
+
+
+        //[HttpPost]
+        //public IActionResult Create(EmprestimoViewModel emprestimoVM)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        //Log detalhado dos erros do ModelState
+        //        foreach (var state in ModelState)
+        //        {
+        //            if (state.Value.Errors.Count > 0)
+        //            {
+        //                foreach (var error in state.Value.Errors)
+        //                {
+        //                    _logger.LogWarning($"Erro no campo {state.Key}: {error.ErrorMessage}");
+        //                }
+        //            }
+        //        }
+
+        //        emprestimoVM.listClientes = _service.repositoryCliente.SelecionarTodos() ?? new List<Cliente>();
+        //        emprestimoVM.listLivros = _service.repositoryLivro.SelecionarTodos() ?? new List<Livro>();
+
+        //        _logger.LogWarning("Modelo inválido enviado para criação de empréstimo.");
+        //        return View(emprestimoVM);
+
+        //    };
+
+        //    try
+        //    {
+        //        var emprestimo = new Emprestimo
+        //        {
+        //            DataEmprestimo = emprestimoVM.dataEmprestimo,
+        //            DataEntrega = emprestimoVM.dataEntrega,
+        //            Entregue = false,
+        //            IdCliente = emprestimoVM.idCliente,
+        //            IdLivro = emprestimoVM.idLivro
+        //        };
+
+        //        _service.repositoryEmprestimo.Incluir(emprestimo);
+
+
+        //        _logger.LogInformation("Empréstimo criado com sucesso.");
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Erro ao criar o empréstimo.");
+        //        ModelState.AddModelError(string.Empty, "Erro ao salvar o empréstimo.");
+        //        return View(emprestimoVM);
+        //    }
+        //}
 
         [HttpGet]
         public IActionResult Edit(int id)
