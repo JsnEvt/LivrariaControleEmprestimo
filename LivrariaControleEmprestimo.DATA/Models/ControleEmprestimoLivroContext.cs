@@ -21,9 +21,9 @@ public partial class ControleEmprestimoLivroContext : DbContext
 
     public virtual DbSet<Emprestimo> Emprestimo { get; set; }
 
-    public virtual DbSet<Livro> Livro { get; set; }
+    public virtual DbSet<Emprestimosql> Emprestimosql { get; set; }
 
-    public virtual DbSet<VwEmprestimoNovo> VwEmprestimoNovo { get; set; }
+    public virtual DbSet<Livro> Livro { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -42,16 +42,16 @@ public partial class ControleEmprestimoLivroContext : DbContext
                 .HasConstraintName("FK_Emprestimo_Livro");
         });
 
+        modelBuilder.Entity<Emprestimosql>(entity =>
+        {
+            entity.ToView("emprestimosql");
+
+            entity.Property(e => e.NomeLivro).IsFixedLength();
+        });
+
         modelBuilder.Entity<Livro>(entity =>
         {
             entity.Property(e => e.Nome).IsFixedLength();
-        });
-
-        modelBuilder.Entity<VwEmprestimoNovo>(entity =>
-        {
-            entity.ToView("VW_EmprestimoNovo");
-
-            entity.Property(e => e.NomeLivro).IsFixedLength();
         });
 
         OnModelCreatingPartial(modelBuilder);

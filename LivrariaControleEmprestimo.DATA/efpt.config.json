@@ -27,7 +27,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[VW_EmprestimoNovo]",
+         "Name": "[dbo].[emprestimosql]",
          "ObjectType": 3
       }
    ],

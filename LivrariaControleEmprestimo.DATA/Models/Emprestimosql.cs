@@ -9,10 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace LivrariaControleEmprestimo.DATA.Models;
 
 [Keyless]
-public partial class VwEmprestimoNovo
+public partial class Emprestimosql
 {
-    public long? IdEmprestimo { get; set; }
-
     [Required]
     [Column("CPF")]
     [StringLength(14)]
@@ -20,21 +18,20 @@ public partial class VwEmprestimoNovo
     public string Cpf { get; set; }
 
     [Required]
-    [Column("nomeCliente")]
     [StringLength(100)]
     [Unicode(false)]
     public string NomeCliente { get; set; }
 
     [Required]
-    [Column("nomeLivro")]
     [StringLength(50)]
     public string NomeLivro { get; set; }
 
-    [Column("EIDLivro")]
-    public int? Eidlivro { get; set; }
+    [Column("id")]
+    public int Id { get; set; }
 
-    [Column("EIDCliente")]
-    public int? Eidcliente { get; set; }
+    public int ClienteId { get; set; }
+
+    public int LivroId { get; set; }
 
     [Column("dataEmprestimo", TypeName = "datetime")]
     public DateTime? DataEmprestimo { get; set; }
