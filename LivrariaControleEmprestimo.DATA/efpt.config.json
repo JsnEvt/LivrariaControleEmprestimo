@@ -27,7 +27,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[emprestimosql]",
+         "Name": "[dbo].[VIEW_EMPRESTIMO]",
          "ObjectType": 3
       }
    ],

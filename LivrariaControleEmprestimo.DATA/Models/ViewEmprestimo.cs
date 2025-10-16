@@ -9,14 +9,8 @@ using Microsoft.EntityFrameworkCore;
 namespace LivrariaControleEmprestimo.DATA.Models;
 
 [Keyless]
-public partial class Emprestimosql
+public partial class ViewEmprestimo
 {
-    [Required]
-    [Column("CPF")]
-    [StringLength(14)]
-    [Unicode(false)]
-    public string Cpf { get; set; }
-
     [Required]
     [StringLength(100)]
     [Unicode(false)]
